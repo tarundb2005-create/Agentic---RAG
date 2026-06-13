@@ -7,7 +7,7 @@
 
 import pickle 
 import os 
-from reranker import rerank
+from src.reranker import rerank
 from rank_bm25 import BM25Okapi
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import SentenceTransformerEmbeddings
@@ -167,38 +167,31 @@ def hybrid_search(query, k=5):
 # INTERACTIVE TEST LOOP
 # ==========================================================
 
-while True:
+# ==========================================================
+# TEST
+# ==========================================================
 
-    # Ask user a question
-    query = input("\nQuestion: ")
+if __name__ == "__main__":
 
-    # Exit condition
-    if query.lower() == "exit":
-        break
+    while True:
 
-    # Retrieve documents using hybrid search
-    docs = hybrid_search(query)
+        query = input("\nQuestion: ")
 
-    print("\nRetrieved Documents:", len(docs))
+        if query.lower() == "exit":
+            break
 
-    # Display top 5 retrieved chunks
-    for i, doc in enumerate(docs[:5]):
+        docs = hybrid_search(query)
 
-        print("\n" + "=" * 60)
+        print("\nRetrieved Documents:", len(docs))
 
-        # Ranking position
-        print("Rank:", i + 1)
+        for i, doc in enumerate(docs):
 
-        # Metadata such as source file/page
-        print(doc.metadata)
+            print("\n" + "="*60)
 
-        print()
+            print("Rank:", i+1)
 
-        # Show first 300 characters
-        # of retrieved chunk
-        print(doc.page_content[:300])
+            print(doc.metadata)
 
-print("\nTop Sources:\n")
+            print()
 
-for doc in docs[:5]:
-    print(doc.metadata.get("source"))
+            print(doc.page_content[:300])

@@ -1,6 +1,4 @@
-
-
-from sentence_transformers import CrossEncoder
+from src.sentence_transformers import CrossEncoder
 
 print("Loading Reranker...")
 
@@ -9,6 +7,7 @@ reranker = CrossEncoder(
 )
 
 print("Reranker Ready")
+
 
 def rerank(query, docs, top_k=3):
 
@@ -25,4 +24,7 @@ def rerank(query, docs, top_k=3):
         reverse=True
     )
 
-    return [doc for score, doc in ranked[:top_k]]
+    return [
+        doc
+        for score, doc in ranked[:top_k]
+    ]
